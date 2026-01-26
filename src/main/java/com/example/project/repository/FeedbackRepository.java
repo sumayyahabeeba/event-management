@@ -2,7 +2,7 @@ package com.example.project.repository;
 
 import java.util.List;
 
-import com.example.project.entity.Feedback;
+import com.example.project.model.Feedback;
 
 public interface FeedbackRepository {
 
@@ -14,4 +14,3 @@ public interface FeedbackRepository {
 
     List<Feedback> findByEmployeeId(Long employeeId);
 }
-

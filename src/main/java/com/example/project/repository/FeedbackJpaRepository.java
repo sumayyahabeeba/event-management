@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.example.project.entity.Feedback;
+import com.example.project.model.Feedback;
 
 public interface FeedbackJpaRepository
         extends JpaRepository<Feedback, Long>, FeedbackRepository {
@@ -13,4 +13,3 @@ public interface FeedbackJpaRepository
 
     List<Feedback> findByEmployeeId(Long employeeId);
 }
-

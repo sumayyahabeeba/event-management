@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.example.project.entity.Feedback;
+import com.example.project.model.Feedback;
 import com.example.project.repository.FeedbackRepository;
 
 @Service
@@ -33,4 +33,3 @@ public class FeedbackService {
         return feedbackRepository.findByEmployeeId(employeeId);
     }
 }
-

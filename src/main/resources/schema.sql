@@ -1,11 +1,11 @@
-CREATE TABLE employees (
+CREATE TABLE if not exists employees (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(100),
     email VARCHAR(100) UNIQUE NOT NULL,
     department VARCHAR(50)
 );
 
-CREATE TABLE events (
+CREATE TABLE if not exists events (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
     title VARCHAR(100),
     description VARCHAR(255),
@@ -16,17 +16,17 @@ CREATE TABLE events (
     status VARCHAR(20)
 );
 
-CREATE TABLE registrations (
+CREATE TABLE if not exists registrations (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
     employee_id BIGINT,
     event_id BIGINT,
     registered_on DATE,
     status VARCHAR(20),
-    FOREIGN KEY (employee_id) REFERENCES employees(id),
-    FOREIGN KEY (event_id) REFERENCES events(id)
+    FOREIGN KEY (employee_id) REFERENCES employees(id) ON DELETE CASCADE,
+    FOREIGN KEY (event_id) REFERENCES events(id) ON DELETE CASCADE
 );
 
-CREATE TABLE feedbacks (
+CREATE TABLE if not exists feedbacks (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
     employee_id BIGINT,
     event_id BIGINT,

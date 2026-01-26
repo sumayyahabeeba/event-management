@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.project.entity.Employee;
+import com.example.project.model.Employee;
 import com.example.project.service.EmployeeService;
 
 

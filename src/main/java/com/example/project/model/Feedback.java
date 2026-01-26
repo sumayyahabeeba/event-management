@@ -1,4 +1,4 @@
-package com.example.project.entity;
+package com.example.project.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -44,4 +44,3 @@ public class Feedback {
     public String getComment() { return comment; }
     public void setComment(String comment) { this.comment = comment; }
 }
-

@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.example.project.entity.Employee;
+import com.example.project.model.Employee;
 
 
 public interface  EmployeeJpaRepository extends JpaRepository<Employee, Long> {

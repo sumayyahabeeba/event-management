@@ -3,7 +3,7 @@ package com.example.project.repository;
 import java.util.List;
 import java.util.Optional;
 
-import com.example.project.entity.Employee;
+import com.example.project.model.Employee;
 
 public interface  EmployeeRepository{
     List<Employee> findAll();

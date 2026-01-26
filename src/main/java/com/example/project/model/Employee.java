@@ -1,4 +1,4 @@
-package com.example.project.entity;
+package com.example.project.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -7,14 +7,12 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
-
-
 @Entity
 @Table(name= "employees")
 public class Employee {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private Long id; 
+    private Long id;
 
     @Column(nullable=false)
     private String name;
@@ -24,13 +22,13 @@ public class Employee {
     private String department;
 
     //Constructors
-    public Employee(){} 
-        public Employee(Long id, String name, String email, String department) {
+    public Employee(){}
+    public Employee(Long id, String name, String email, String department) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.department = department;
-    }   
+    }
 
     public Long getId() {
         return id;
