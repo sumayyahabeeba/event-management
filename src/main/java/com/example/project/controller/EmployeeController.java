@@ -24,30 +24,30 @@ public class EmployeeController {
     }
     // Controller methods would go here
     // 1️ . Create Employee
-    @PostMapping
+    @PostMapping("/employees")
     public ResponseEntity<Employee> createEmployee(@RequestBody Employee employee) {
         Employee savedEmployee = employeeService.createEmployee(employee);
         return new ResponseEntity<>(savedEmployee,HttpStatus.CREATED);
     }
     // 2 . Get all Employees
-    @GetMapping
+    @GetMapping("/employees")
     public ResponseEntity<List<Employee>> getAllEmployees(){
         return ResponseEntity.ok(employeeService.getAllEmployees());
     }
     // 3 . Get Employee by ID
-    @GetMapping("/{id}")
+    @GetMapping("/employees/{id}")
     public ResponseEntity<Employee> getEmployeeById(@PathVariable Long id){
         Employee employee = employeeService.getEmployeeById(id);
         return ResponseEntity.ok(employee);
     }
     // 4️ . Get Employee by Email
-    @GetMapping("/email/{email}")
+    @GetMapping("/employees/email/{email}")
     public ResponseEntity<Employee> getEmployeeByEmail(@PathVariable String email) {
         return ResponseEntity.ok(employeeService.getEmployeeByEmail(email));
     }
 
     // 5️ . Update Employee
-    @PutMapping("/{id}")
+    @PutMapping("/employees/{id}")
     public ResponseEntity<Employee> updateEmployee(
             @PathVariable Long id,
             @RequestBody Employee employee) {
@@ -57,7 +57,7 @@ public class EmployeeController {
     }
 
     // 6️ . Delete Employee
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/employees/{id}")
     public ResponseEntity<Void> deleteEmployee(@PathVariable Long id) {
         employeeService.deleteEmployee(id);
         return ResponseEntity.noContent().build();
