@@ -1,5 +1,7 @@
 package com.example.project.service;
 
+import java.util.List;
+
 import com.example.project.model.*;
 import com.example.project.repository.EmployeeJpaRepository;
 import com.example.project.repository.EventRepository;
@@ -8,7 +10,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.List;
+import com.example.project.model.Employee;
+import com.example.project.model.Event;
+import com.example.project.model.Registration;
+import com.example.project.model.RegistrationStatus;
+import com.example.project.repository.EmployeeJpaRepository;
+import com.example.project.repository.EventRepository;
+import com.example.project.repository.RegistrationJpaRepository;
 
 @Service
 public class RegistrationService {
