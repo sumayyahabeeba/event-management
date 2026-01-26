@@ -16,6 +16,12 @@ public class RegistrationController {
         this.registrationService = registrationService;
     }
 
+    @GetMapping
+    public List<Registration> getAllRegistrations(){
+        return registrationService.getAllRegistrations();
+    }
+
+    // POST /registrations?employeeId=1&eventId=2
     @PostMapping
     public Registration register(@RequestParam Long employeeId,
                                  @RequestParam Long eventId) {

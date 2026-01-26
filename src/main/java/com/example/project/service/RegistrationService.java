@@ -2,7 +2,13 @@ package com.example.project.service;
 
 import java.util.List;
 
+import com.example.project.model.*;
+import com.example.project.repository.EmployeeJpaRepository;
+import com.example.project.repository.EventRepository;
+import com.example.project.repository.RegistrationJpaRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.example.project.model.Employee;
 import com.example.project.model.Event;
@@ -15,77 +21,90 @@ import com.example.project.repository.RegistrationJpaRepository;
 @Service
 public class RegistrationService {
 
-    private final RegistrationJpaRepository registrationJpaRepo;
+    private final RegistrationJpaRepository registrationRepo;
     private final EmployeeJpaRepository employeeRepo;
     private final EventRepository eventRepo;
 
-    public RegistrationService(RegistrationJpaRepository registrationJpaRepo,
+    public RegistrationService(RegistrationJpaRepository registrationRepo,
                                EmployeeJpaRepository employeeRepo,
                                EventRepository eventRepo) {
-        this.registrationJpaRepo = registrationJpaRepo;
+        this.registrationRepo = registrationRepo;
         this.employeeRepo = employeeRepo;
         this.eventRepo = eventRepo;
+    }
+
+    public List<Registration> getAllRegistrations(){
+        return registrationRepo.findAll();
     }
 
     public Registration register(Long employeeId, Long eventId) {
 
         Employee employee = employeeRepo.findById(employeeId)
-                .orElseThrow(() -> new RuntimeException("Employee not found"));
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "Employee not found"));
 
         Event event = eventRepo.findById(eventId)
-                .orElseThrow(() -> new RuntimeException("Event not found"));
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "Event not found"));
 
         // Duplicate check
-        registrationJpaRepo.findByEmployeeIdAndEventId(employeeId, eventId)
+        registrationRepo.findByEmployeeIdAndEventId(employeeId, eventId)
                 .ifPresent(r -> {
                     if (r.getStatus() != RegistrationStatus.CANCELLED) {
-                        throw new RuntimeException("Employee already registered");
+                        throw new ResponseStatusException(
+                                HttpStatus.CONFLICT,
+                                "Employee already registered for this event");
                     }
                 });
 
         // Capacity check
-        long registeredCount = registrationJpaRepo
+        long registeredCount = registrationRepo
                 .countByEventIdAndStatus(eventId, RegistrationStatus.REGISTERED);
 
         if (registeredCount >= event.getMaxParticipants()) {
-            throw new RuntimeException("Event is full");
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "Event is already full");
         }
 
-        Registration registration = new Registration(employee, event);
-        return registrationJpaRepo.save(registration);
+        return registrationRepo.save(new Registration(employee, event));
     }
 
     public void cancel(Long registrationId) {
 
-        Registration registration = registrationJpaRepo.findById(registrationId)
-                .orElseThrow(() -> new RuntimeException("Registration not found"));
+        Registration registration = registrationRepo.findById(registrationId)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "Registration not found"));
 
         if (registration.getStatus() == RegistrationStatus.CANCELLED) {
-            return; // idempotent cancel
+            return;
         }
 
         registration.setStatus(RegistrationStatus.CANCELLED);
-        registrationJpaRepo.save(registration);
+        registrationRepo.save(registration);
     }
 
     public List<Registration> getByEvent(Long eventId) {
-        return registrationJpaRepo.findByEventId(eventId);
+        return registrationRepo.findByEventId(eventId);
     }
 
     public List<Registration> getByEmployee(Long employeeId) {
-        return registrationJpaRepo.findByEmployeeId(employeeId);
+        return registrationRepo.findByEmployeeId(employeeId);
     }
 
     public Registration markAttendance(Long registrationId) {
 
-        Registration registration = registrationJpaRepo.findById(registrationId)
-                .orElseThrow(() -> new RuntimeException("Registration not found"));
+        Registration registration = registrationRepo.findById(registrationId)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "Registration not found"));
 
         if (registration.getStatus() != RegistrationStatus.REGISTERED) {
-            throw new RuntimeException("Attendance can be marked only for REGISTERED status");
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "Attendance can be marked only for REGISTERED status");
         }
 
         registration.setStatus(RegistrationStatus.ATTENDED);
-        return registrationJpaRepo.save(registration);
+        return registrationRepo.save(registration);
     }
 }

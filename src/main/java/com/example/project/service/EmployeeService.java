@@ -9,27 +9,27 @@ import com.example.project.repository.EmployeeJpaRepository;
 
 @Service
 public class EmployeeService {
-    private final EmployeeJpaRepository employeeRepository;
+    private final EmployeeJpaRepository employeeJpaRepository;
 
-    public EmployeeService(EmployeeJpaRepository employeeRepository) {
-        this.employeeRepository = employeeRepository;
+    public EmployeeService(EmployeeJpaRepository employeeJpaRepository) {
+        this.employeeJpaRepository = employeeJpaRepository;
     }
      // Create / Save Employee
     public Employee createEmployee(Employee employee) {
-        return employeeRepository.save(employee);
+        return employeeJpaRepository.save(employee);
     }
     // Get all employees
     public List<Employee> getAllEmployees() {
-        return employeeRepository.findAll();
+        return employeeJpaRepository.findAll();
     }
     // Get employee by ID (safe way)
     public Employee getEmployeeById(Long id) {
-        return employeeRepository.findById(id).orElseThrow(() -> new RuntimeException("Employee not found with id: " + id));
+        return employeeJpaRepository.findById(id).orElseThrow(() -> new RuntimeException("Employee not found with id: " + id));
     }
     
     // Get employee by Email
     public Employee getEmployeeByEmail(String email) {
-        return employeeRepository.findByEmail(email)
+        return employeeJpaRepository.findByEmail(email)
                 .orElseThrow(() -> 
                     new RuntimeException("Employee not found with email: " + email)
                 );
@@ -40,10 +40,10 @@ public class EmployeeService {
         existingEmployee.setName(updatedEmployee.getName());
         existingEmployee.setEmail(updatedEmployee.getEmail());
         existingEmployee.setDepartment(updatedEmployee.getDepartment());
-        return employeeRepository.save(existingEmployee);
+        return employeeJpaRepository.save(existingEmployee);
     }
     // Delete Employee
     public void deleteEmployee(Long id) {
-        employeeRepository.deleteById(id);
+        employeeJpaRepository.deleteById(id);
     }
 }
