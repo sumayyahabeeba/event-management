@@ -1,8 +1,11 @@
 package com.example.project.controller;
 
+import com.example.project.model.Employee;
 import com.example.project.model.Event;
 import com.example.project.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,10 +39,9 @@ public class EventController {
     }
 
     @DeleteMapping("/{id}")
-    public String cancelEvent(@PathVariable Long id) {
+    public ResponseEntity<String> cancelEvent(@PathVariable Long id) {
         eventService.cancelEvent(id);
-        return "Event cancelled successfully";
-    }
+        return new ResponseEntity<>("Event cancelled successfully", HttpStatus.NO_CONTENT);    }
 
     @GetMapping("/upcoming")
     public List<Event> upcomingEvents() {
@@ -49,6 +51,11 @@ public class EventController {
     @GetMapping("/past")
     public List<Event> pastEvents() {
         return eventService.getPastEvents();
+    }
+
+    @GetMapping("/{id}/participants")
+    public List<Employee> allParticipantsByEventId(@PathVariable Long id){
+        return eventService.allParticipantsByEventId(id);
     }
 }
 
