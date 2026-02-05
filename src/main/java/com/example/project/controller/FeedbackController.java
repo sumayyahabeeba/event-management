@@ -15,7 +15,7 @@ import com.example.project.model.Feedback;
 import com.example.project.service.FeedbackService;
 
 @RestController
-@RequestMapping("/api/feedbacks")
+@RequestMapping("/feedbacks")
 public class FeedbackController {
 
     private final FeedbackService feedbackService;
@@ -24,7 +24,7 @@ public class FeedbackController {
         this.feedbackService = feedbackService;
     }
 
-    // POST /api/feedbacks?employeeId=1&eventId=2
+    // POST feedbacks?employeeId=1&eventId=2
     @PostMapping
     public ResponseEntity<Feedback> addFeedback(@RequestParam Long employeeId,
                                                 @RequestParam Long eventId,
