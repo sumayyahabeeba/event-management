@@ -1,5 +1,6 @@
 package com.example.project.controller;
 
+import com.example.project.model.Employee;
 import com.example.project.model.Event;
 import com.example.project.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +51,11 @@ public class EventController {
     @GetMapping("/past")
     public List<Event> pastEvents() {
         return eventService.getPastEvents();
+    }
+
+    @GetMapping("/{id}/participants")
+    public List<Employee> allParticipantsByEventId(@PathVariable Long id){
+        return eventService.allParticipantsByEventId(id);
     }
 }
 

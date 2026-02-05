@@ -1,6 +1,7 @@
 package com.example.project.repository;
 
 import com.example.project.model.Event;
+import com.example.project.model.Registration;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDate;
@@ -13,4 +14,6 @@ public interface EventRepository extends JpaRepository<Event, Long> {
     List<Event> findByEventDateBefore(LocalDate date);
 
     List<Event> findByStatus(String status);
+
+    List<Registration> findByEventId(Long eventId);
 }

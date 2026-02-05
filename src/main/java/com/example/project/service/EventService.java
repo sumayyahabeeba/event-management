@@ -1,7 +1,10 @@
 package com.example.project.service;
 
+import com.example.project.model.Employee;
 import com.example.project.model.Event;
+import com.example.project.model.Registration;
 import com.example.project.repository.EventRepository;
+import com.example.project.repository.RegistrationJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -15,6 +18,9 @@ public class EventService {
 
     @Autowired
     private EventRepository eventRepository;
+
+    @Autowired
+    private RegistrationJpaRepository registrationJpaRepository;
 
     public Event createEvent(Event event) {
         event.setStatus("PLANNED");
@@ -56,6 +62,15 @@ public class EventService {
 
     public List<Event> getPastEvents() {
         return eventRepository.findByEventDateBefore(LocalDate.now());
+    }
+
+    public List<Employee> allParticipantsByEventId(Long id) {
+        List<Registration> regs =
+                registrationJpaRepository.findByEventId(id);
+
+        return regs.stream()
+                .map(registration->registration.getEmployee())
+                .toList();
     }
 }
 
