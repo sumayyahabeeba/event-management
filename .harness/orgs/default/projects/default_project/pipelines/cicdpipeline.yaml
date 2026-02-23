@@ -37,8 +37,8 @@ pipeline:
                   identifier: BuildAndPushDockerRegistry_1
                   spec:
                     connectorRef: Dockerhub
-                    repo: event-management
+                    repo: sumayyahabeeba/event-management
                     tags:
-                      - v1
+                      - <+pipeline.sequenceId>
         delegateSelectors:
           - docker-delegate
