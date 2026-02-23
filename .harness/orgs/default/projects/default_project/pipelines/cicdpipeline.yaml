@@ -28,7 +28,8 @@ pipeline:
             arch: Amd64
           runtime:
             type: Docker
-            spec: {}
+            spec:
+              harnessImageConnectorRef: Dockerhub
           execution:
             steps:
               - step:
