@@ -40,3 +40,5 @@ pipeline:
                     repo: event-management
                     tags:
                       - v1
+        delegateSelectors:
+          - docker-delegate
